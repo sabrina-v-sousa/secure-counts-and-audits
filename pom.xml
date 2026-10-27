@@ -9,14 +9,15 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>helloworld Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>Secure Counts And Audits</name>
+  <url>https://secure-counts-and-audits-eahrg0bzfgbhewew.canadacentral-01.azurewebsites.net</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>8</maven.compiler.source>
-    <maven.compiler.target>8</maven.compiler.target>
+    <!-- updated for newer Java release -->
+    <!-- maven.compiler.source>8</maven.compiler.source -->
+    <!-- maven.compiler.target>8</maven.compiler.target -->
+    <maven.compiler.release>25</maven.compiler.release>
   </properties>
 
   <dependencies>
