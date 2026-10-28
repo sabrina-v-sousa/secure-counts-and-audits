@@ -95,8 +95,8 @@ style="padding:128px 16px">
       <h5 class="w3-padding-32">
       This project proposes creating a cost-effective, secure, and user-friendly solution to help smaller
       audit firms conduct physical asset or inventory counts in multiple, geographically dispersed client 
-      sites—without requiring on-site presence. Key technologies include lightweight mobile applications, 
-      secure data transmission, and machine learning–based verification to ensure integrity and reduce the 
+      sites, without requiring on-site presence. Key technologies include lightweight mobile applications, 
+      secure data transmission, and machine learning-based verification to ensure integrity and reduce the 
       risk of fraud or error.
       </h5>
 
