@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - secure-counts-and-audits
+name: Build and deploy WAR app to Azure Web App - secure-counts-and-audits
 
 on:
   push:
@@ -16,10 +16,10 @@ jobs:
       contents: read #This is required for actions/checkout
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
 
       - name: Set up Java version
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           java-version: '25'
           distribution: 'microsoft'
@@ -28,7 +28,7 @@ jobs:
         run: mvn clean install
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: java-app
           path: '${{ github.workspace }}/target/*.war'
@@ -42,16 +42,16 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           name: java-app
       
       - name: Login to Azure
-        uses: azure/login@v3
+        uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_551452AE82064DC4B9D51414E6D94A2C }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_47BD9FFDB92345EF821AF683D1AC3DBA }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_56946DAB3C844D03BB845B2C7D0524BF }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_0BAFD87949BB4BC78BF44DAD1D87A8AE }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8F0DE11751C64FD09C9FF87CEBBD908A }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7DE8B81E0DCD4525BA94E35E4C08B39F }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
