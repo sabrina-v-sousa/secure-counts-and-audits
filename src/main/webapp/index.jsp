@@ -20,7 +20,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family:"Lato",sans-serif}
 
   <nav class="w3-flex w3-blue w3-card w3-large">
 
-    <a href="#"
+    <a href="./index.jsp"
     class="w3-button w3-padding-large w3-white">
     Home
     </a>
@@ -40,7 +40,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family:"Lato",sans-serif}
     View Evidence
     </a>
 
-    <a href="#"
+    <a href="video-conferencing/video-conferencing.jsp"
     class="w3-button w3-hide-small w3-padding-large w3-hover-white">
     Live Video Auditing
     </a>
