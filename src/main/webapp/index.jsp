@@ -153,7 +153,7 @@
                 Select an area below to begin managing your audits.
             </p>
 
-<div class="w3-row-padding">
+            <div class="w3-row-padding">
 
                 <!-- Clients -->
                 <div class="w3-third w3-margin-bottom">
@@ -178,7 +178,7 @@
 
                         <i class="fa fa-file-text w3-text-blue dashboard-icon" aria-hidden="true"></i>
 
-                        <h3>Client Documents</h3>
+                        <h3>Documents</h3>
 
                         <p>Manage inventory lists and supporting documents.</p>
 
@@ -197,7 +197,7 @@
 
                         <h3>Audit Evidence</h3>
 
-                        <p>Inventory working papers and supporting documentation.</p>
+                        <p>Review evidence records and integrity information.</p>
 
                         <a href="evidence.jsp" class="w3-button w3-blue">
                             View Evidence
@@ -223,7 +223,7 @@
                             verification observations.
                         </p>
 
-                        <a href="live-audit.jsp" class="w3-button w3-blue">
+                        <a href="video-conferencing/video-conferencing.jsp" class="w3-button w3-blue">
                             Open Audit Workspace
                         </a>
 
@@ -236,7 +236,7 @@
 
                         <i class="fa fa-clipboard w3-text-blue dashboard-icon" aria-hidden="true"></i>
 
-                        <h3>Reports</h3>
+                        <h3>Audit Reports</h3>
 
                         <p>
                             Review audit results, discrepancies, and
