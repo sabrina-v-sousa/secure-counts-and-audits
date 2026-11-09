@@ -178,7 +178,7 @@
 
                         <i class="fa fa-file-text w3-text-blue dashboard-icon" aria-hidden="true"></i>
 
-                        <h3>Documents</h3>
+                        <h3>Client Documents</h3>
 
                         <p>Manage inventory lists and supporting documents.</p>
 
@@ -197,7 +197,7 @@
 
                         <h3>Audit Evidence</h3>
 
-                        <p>Review evidence records and integrity information.</p>
+                        <p>Inventory working papers and supporting documentation.</p>
 
                         <a href="evidence.jsp" class="w3-button w3-blue">
                             View Evidence
@@ -236,7 +236,7 @@
 
                         <i class="fa fa-clipboard w3-text-blue dashboard-icon" aria-hidden="true"></i>
 
-                        <h3>Audit Reports</h3>
+                        <h3>Reports</h3>
 
                         <p>
                             Review audit results, discrepancies, and
