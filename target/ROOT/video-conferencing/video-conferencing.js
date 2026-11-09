@@ -2,6 +2,7 @@
 const { CallClient, VideoStreamRenderer, LocalVideoStream } = require('@azure/communication-calling');
 const { AzureCommunicationTokenCredential } = require('@azure/communication-common');
 const { AzureLogger, setLogLevel } = require("@azure/logger");
+
 // Set the log level and output
 setLogLevel('verbose');
 AzureLogger.log = (...args) => {
@@ -17,7 +18,7 @@ let localVideoStream;
 let localVideoStreamRenderer;
 
 // UI widgets
-let userAccessToken = document.getElementById('user-access-token');
+//let userAccessToken = document.getElementById('user-access-token');
 let calleeAcsUserId = document.getElementById('callee-acs-user-id');
 let initializeCallAgentButton = document.getElementById('initialize-call-agent');
 let startCallButton = document.getElementById('start-call-button');
@@ -29,6 +30,10 @@ let connectedLabel = document.getElementById('connectedLabel');
 let remoteVideosGallery = document.getElementById('remoteVideosGallery');
 let localVideoContainer = document.getElementById('localVideoContainer');
 
+document.getElementById('copy-id').addEventListener('click', () => {
+            navigator.clipboard.writeText(userId);
+});
+
 /**
  * Using the CallClient, initialize a CallAgent instance with a CommunicationUserCredential which will enable us to make outgoing calls and receive incoming calls. 
  * You can then use the CallClient.getDeviceManager() API instance to get the DeviceManager.
@@ -36,7 +41,15 @@ let localVideoContainer = document.getElementById('localVideoContainer');
 initializeCallAgentButton.onclick = async () => {
     try {
         const callClient = new CallClient(); 
-        tokenCredential = new AzureCommunicationTokenCredential(userAccessToken.value.trim());
+        // Automation of Communication Tokens
+        const res = await fetch('/api/token');
+        const { userId, token } = await res.json();
+        document.getElementById('my-user-id').value = userId;
+        let userAccessToken = token;
+        document.getElementById('user-access-token').value = userAccessToken;
+
+        tokenCredential = new AzureCommunicationTokenCredential(userAccessToken);
+        // userAccessToken.value.trim() if input
         callAgent = await callClient.createCallAgent(tokenCredential)
         // Set up a camera device to use.
         deviceManager = await callClient.getDeviceManager();
@@ -102,7 +115,7 @@ acceptCallButton.onclick = async () => {
  * Subscribe to a call obj.
  * Listen for property changes and collection updates.
  */
-subscribeToCall = (call) => {
+function subscribeToCall(call) {
     try {
         // Inspect the initial call.id value.
         console.log(`Call Id: ${call.id}`);
