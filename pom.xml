@@ -27,6 +27,17 @@
       <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>com.azure</groupId>
+        <artifactId>azure-communication-identity</artifactId>
+        <version>1.6.12</version>
+    </dependency>
+    <dependency>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>6.0.0</version>
+        <scope>provided</scope>
+        </dependency>
   </dependencies>
 
   <build>
@@ -53,6 +64,14 @@
         <plugin>
           <artifactId>maven-war-plugin</artifactId>
           <version>3.4.0</version>
+          <configuration>
+            <webResources>
+              <resource>
+                <directory>frontend-conferencing-build</directory>
+                <targetPath>video-conferencing/dist</targetPath>
+              </resource>
+            </webResources>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>

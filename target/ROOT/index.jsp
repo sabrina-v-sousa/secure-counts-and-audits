@@ -1,160 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>Auditors Start Page </title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/6/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family:"Lato",sans-serif}
-.w3-bar,h1,button {font-family:"Montserrat",sans-serif}
-.fa-anchor,.fa-coffee {font-size:200px}
-</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Auditor Dashboard | Secure Counts and Audits</title>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Lato", sans-serif;
+        }
+
+        .w3-bar,
+        button {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            padding-top: 60px;
+            background-color: #f5f7fa;
+        }
+
+        .dashboard-header {
+            padding: 75px 16px;
+        }
+
+        .dashboard-card {
+            min-height: 190px;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .dashboard-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .project-description {
+            line-height: 1.8;
+        }
+
+        footer {
+            margin-top: 40px;
+        }
+    </style>
+</head>
 
 <body>
 
-<!-- Navbar -->
-<div class="w3-top">
+    <!-- Navigation -->
+    <nav class="w3-top w3-bar w3-blue w3-card" aria-label="Main navigation">
 
-  <nav class="w3-flex w3-blue w3-card w3-large">
+        <a href="index.jsp" class="w3-bar-item w3-button w3-padding-large">
+            <i class="fa fa-shield"></i>
+            Secure Counts
+        </a>
 
-    <a href="#"
-    class="w3-button w3-padding-large w3-white">
-    Home
-    </a>
+        <div class="w3-right w3-hide-small">
+            <a href="index.jsp" class="w3-bar-item w3-button w3-padding-large">
+                Home
+            </a>
 
-    <a href="#"
-    class="w3-button w3-hide-small w3-padding-large w3-hover-white">
-    View Clients
-    </a>
+            <a href="clients.jsp" class="w3-bar-item w3-button w3-padding-large">
+                View Clients
+            </a>
 
-    <a href="#"
-    class="w3-button w3-hide-small w3-padding-large w3-hover-white">
-    Upload Documents
-    </a>
+            <a href="documents.jsp" class="w3-bar-item w3-button w3-padding-large">
+                Documents
+            </a>
 
-    <a href="#"
-    class="w3-button w3-hide-small w3-padding-large w3-hover-white">
-    View Evidence
-    </a>
+            <a href="evidence.jsp" class="w3-bar-item w3-button w3-padding-large">
+                Evidence
+            </a>
 
-    <a href="#"
-    class="w3-button w3-hide-small w3-padding-large w3-hover-white">
-    Live Video Auditing
-    </a>
+            <a href="video-conferencing/video-conferencing.jsp" class="w3-bar-item w3-button w3-padding-large">
+                Live Auditing
+            </a>
+        </div>
 
-    <button
-    class="w3-button w3-hide-medium w3-hide-large w3-padding-large w3-hover-white w3-blue"
-    style="margin-left:auto"
-    onclick="myFunction()"
-    title="Toggle Navigation Menu">
-      <i class="fa fa-bars"></i>
-    </button>
+        <button class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="toggleMenu()"
+            aria-label="Toggle navigation menu" aria-expanded="false" id="menuButton">
+            <i class="fa fa-bars"></i>
+        </button>
+    </nav>
 
-  </nav>
+    <!-- Mobile navigation -->
+    <div id="mobileMenu" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium" style="margin-top:60px"
+        aria-label="Mobile navigation">
 
-  <!-- Navbar on small screens -->
-  <div id="navDemo"
-  class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+        <a href="index.jsp" class="w3-bar-item w3-button">
+            Home
+        </a>
 
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
+        <a href="clients.jsp" class="w3-bar-item w3-button">
+            View Clients
+        </a>
 
-  </div>
+        <a href="documents.jsp" class="w3-bar-item w3-button">
+            Upload Documents
+        </a>
 
-</div>
+        <a href="evidence.jsp" class="w3-bar-item w3-button">
+            View Evidence
+        </a>
 
-<!-- Header -->
-<header class="w3-container w3-blue w3-center"
-style="padding:128px 16px">
-
-  <h1 class="w3-margin w3-jumbo">Auditor Dashboard</h1>
-
-  <p class="w3-xlarge">Secure Counts and Audits</p>
-
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">
-  Log Out
-  </button>
-
-</header>
-
-<!-- First Section -->
-<section class="w3-container w3-padding-64">
-
-  <div class="w3-content w3-grid"
-  style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center">
-
-    <div>
-
-      <h1>Secure Counts and Audit Project</h1>
-
-      <h5 class="w3-padding-32">
-      This project proposes creating a cost-effective, secure, and user-friendly solution to help smaller
-      audit firms conduct physical asset or inventory counts in multiple, geographically dispersed client 
-      sites, without requiring on-site presence. Key technologies include lightweight mobile applications, 
-      secure data transmission, and machine learning-based verification to ensure integrity and reduce the 
-      risk of fraud or error.
-      </h5>
-
+        <a href="video-conferencing/video-conferencing.jsp" class="w3-bar-item w3-button">
+            Live Video Auditing
+        </a>
     </div>
 
-    <div class="w3-center">
-      <i class="fa fa-lock w3-padding-16 w3-text-blue" style="font-size:180px"></i>
-    </div>
+    <!-- Dashboard header -->
+    <header class="w3-container w3-blue w3-center dashboard-header">
 
-  </div>
+        <h1 class="w3-jumbo">Auditor Dashboard</h1>
 
-</section>
+        <p class="w3-xlarge">
+            Secure Counts and Audits
+        </p>
 
-<!-- Second Section -->
-<section class="w3-container w3-light-grey w3-padding-64">
+        <p>
+            Manage inventory audits, verification records, and supporting evidence.
+        </p>
 
-  <div class="w3-content w3-grid"
-  style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center">
+    </header>
 
-    <div class="w3-center">
-      <i class="fa fa-coffee w3-padding-64 w3-text-blue"></i>
-    </div>
+    <!-- Main dashboard -->
+    <main>
 
-    <div>
+        <section class="w3-content w3-padding-32" style="max-width:1200px">
 
-      <h1>Contact Us</h1>
+            <h2>Audit Workspace</h2>
 
-      <h5 class="w3-padding-32">
-      Please report bugs or complaints to this email: ssousa06@uoguelph.ca.
-      </h5>
+            <p>
+                Select an area below to begin managing your audits.
+            </p>
 
-    </div>
+            <div class="w3-row-padding">
 
-  </div>
+                <!-- Clients -->
+                <div class="w3-third w3-margin-bottom">
+                    <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
 
-</section>
+                        <i class="fa fa-users w3-text-blue dashboard-icon" aria-hidden="true"></i>
 
-<!-- Quote -->
-<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-  <h1 class="w3-margin w3-xlarge">Created by: Sabrina Sousa and Adam Orchard</h1>
-</div>
+                        <h3>Clients</h3>
 
-<!-- Footer -->
-<footer class="w3-container w3-padding-64 w3-center w3-opacity">
+                        <p>Manage client information and audit assignments.</p>
 
-  <p>
-  Project Supervised by Dr. Peter Ghattas
-  </p>
+                        <a href="clients.jsp" class="w3-button w3-blue">
+                            View Clients
+                        </a>
 
-</footer>
+                    </div>
+                </div>
 
-<script>
-const mobileMenu = document.getElementById("navDemo");
+                <!-- Documents -->
+                <div class="w3-third w3-margin-bottom">
+                    <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
 
-function myFunction() {
-  mobileMenu.classList.toggle("w3-show");
-}
-</script>
+                        <i class="fa fa-file-text w3-text-blue dashboard-icon" aria-hidden="true"></i>
 
+                        <h3>Documents</h3>
+
+                        <p>Manage inventory lists and supporting documents.</p>
+
+                        <a href="documents.jsp" class="w3-button w3-blue">
+                            View Documents
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Evidence -->
+                <div class="w3-third w3-margin-bottom">
+                    <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
+
+                        <i class="fa fa-lock w3-text-blue dashboard-icon" aria-hidden="true"></i>
+
+                        <h3>Audit Evidence</h3>
+
+                        <p>Review evidence records and integrity information.</p>
+
+                        <a href="evidence.jsp" class="w3-button w3-blue">
+                            View Evidence
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w3-row-padding">
+
+                <!-- Live auditing -->
+                <div class="w3-half w3-margin-bottom">
+                    <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
+
+                        <i class="fa fa-video-camera w3-text-blue dashboard-icon" aria-hidden="true"></i>
+
+                        <h3>Live Video Auditing</h3>
+
+                        <p>
+                            Access audit sessions and record inventory
+                            verification observations.
+                        </p>
+
+                        <a href="video-conferencing/video-conferencing.jsp" class="w3-button w3-blue">
+                            Open Audit Workspace
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Reports -->
+                <div class="w3-half w3-margin-bottom">
+                    <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
+
+                        <i class="fa fa-clipboard w3-text-blue dashboard-icon" aria-hidden="true"></i>
+
+                        <h3>Audit Reports</h3>
+
+                        <p>
+                            Review audit results, discrepancies, and
+                            verification exceptions.
+                        </p>
+
+                        <a href="reports.jsp" class="w3-button w3-blue">
+                            View Reports
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Project information -->
+        <section class="w3-container w3-light-grey w3-padding-64">
+
+            <div class="w3-content" style="max-width:1000px">
+
+                <h2>About the Project</h2>
+
+                <p class="project-description">
+                    This project proposes creating a cost-effective, 
+                    secure, and user-friendly solution to help smaller 
+                    audit firms conduct physical asset or inventory counts in multiple, 
+                    geographically dispersed client sites, without requiring on-site presence. 
+                    Key technologies include lightweight mobile applications, 
+                    secure data transmission, and machine learning-based 
+                    verification to ensure integrity and reduce the risk of fraud or error.
+                </p>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w3-container w3-dark-grey w3-center w3-padding-32">
+
+        <p>
+            Secure Counts and Audits
+        </p>
+
+        <p>
+            Created by: Sabrina Sousa and Adam Orchard
+        </p>
+
+        <p>
+            Project Supervised by Dr. Peter Ghattas
+        </p>
+
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("mobileMenu");
+            const button = document.getElementById("menuButton");
+
+            menu.classList.toggle("w3-show");
+
+            const expanded = menu.classList.contains("w3-show");
+
+            button.setAttribute("aria-expanded", String(expanded));
+        }
+    </script>
 </body>
+
 </html>

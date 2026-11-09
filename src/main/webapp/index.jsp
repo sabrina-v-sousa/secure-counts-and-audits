@@ -91,7 +91,7 @@
                 Evidence
             </a>
 
-            <a href="live-audit.jsp" class="w3-bar-item w3-button w3-padding-large">
+            <a href="video-conferencing/video-conferencing.jsp" class="w3-bar-item w3-button w3-padding-large">
                 Live Auditing
             </a>
         </div>
@@ -122,7 +122,7 @@
             View Evidence
         </a>
 
-        <a href="live-audit.jsp" class="w3-bar-item w3-button">
+        <a href="video-conferencing/video-conferencing.jsp" class="w3-bar-item w3-button">
             Live Video Auditing
         </a>
     </div>
@@ -223,7 +223,7 @@
                             verification observations.
                         </p>
 
-                        <a href="live-audit.jsp" class="w3-button w3-blue">
+                        <a href="video-conferencing/video-conferencing.jsp" class="w3-button w3-blue">
                             Open Audit Workspace
                         </a>
 
