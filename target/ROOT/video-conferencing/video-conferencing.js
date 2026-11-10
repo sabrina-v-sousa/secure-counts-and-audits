@@ -31,7 +31,7 @@ let remoteVideosGallery = document.getElementById('remoteVideosGallery');
 let localVideoContainer = document.getElementById('localVideoContainer');
 
 document.getElementById('copy-id').addEventListener('click', () => {
-            navigator.clipboard.writeText(userId);
+            navigator.clipboard.writeText(document.getElementById('my-user-id').value);
 });
 
 /**
@@ -44,10 +44,9 @@ initializeCallAgentButton.onclick = async () => {
         // Automation of Communication Tokens
         const res = await fetch('/api/token');
         const { userId, token } = await res.json();
-        document.getElementById('my-user-id').value = userId;
         let userAccessToken = token;
-        document.getElementById('user-access-token').value = userAccessToken;
-
+        document.getElementById('my-user-id').value = userId;
+        //document.getElementById('user-access-token').value = userAccessToken;
         tokenCredential = new AzureCommunicationTokenCredential(userAccessToken);
         // userAccessToken.value.trim() if input
         callAgent = await callClient.createCallAgent(tokenCredential)
