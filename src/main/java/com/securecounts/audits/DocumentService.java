@@ -37,4 +37,11 @@ public class DocumentService {
         return repository.getAllDocuments();
     }
 
+    public DocumentRecord getDocumentById(int id) throws SQLException {
+        return repository.getDocumentById(id);
+    }
+
+    public void deleteDocument(int id) throws SQLException {
+        repository.deleteDocument(id);
+    }
 }

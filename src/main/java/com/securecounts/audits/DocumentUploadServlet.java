@@ -85,7 +85,44 @@ public class DocumentUploadServlet extends HttpServlet {
             Files.createDirectories(uploadDirectory);
             System.out.println("UPLOAD DIRECTORY: " + uploadDirectory.toAbsolutePath());
 
-            String storedFilename = UUID.randomUUID() + ".pdf";
+            String requestedName = request.getParameter("documentName");
+
+            if (requestedName == null || requestedName.isBlank()) {
+                throw new IllegalArgumentException(
+                        "Please enter a name for your document.");
+            }
+
+            requestedName = requestedName.trim();
+
+            // Remove .pdf if the user already included it.
+            if (requestedName.toLowerCase().endsWith(".pdf")) {
+                requestedName = requestedName.substring(
+                        0, requestedName.length() - 4);
+            }
+
+            // Validate the filename.
+            if (requestedName.isBlank() ||
+                    requestedName.length() > 100 ||
+                    requestedName.equals(".") ||
+                    requestedName.equals("..") ||
+                    !requestedName.matches("[\\p{L}\\p{N}._ -]+") ||
+                    requestedName.endsWith(".") ||
+                    requestedName.endsWith(" ")) {
+
+                throw new IllegalArgumentException(
+                        "Please enter a valid document name. "
+                                + "Use letters, numbers, spaces, hyphens or underscores.");
+            }
+
+            String storedFilename = requestedName + ".pdf";
+
+            Path finalFile = uploadDirectory.resolve(storedFilename);
+
+            if (Files.exists(finalFile)) {
+                throw new IllegalArgumentException(
+                        "A document with that name already exists. "
+                                + "Please choose another name.");
+            }
 
             temporaryFile = Files.createTempFile(
                     uploadDirectory, "upload-", ".tmp");
@@ -107,8 +144,6 @@ public class DocumentUploadServlet extends HttpServlet {
             }
 
             String sha256 = calculateSHA256(temporaryFile);
-
-            Path finalFile = uploadDirectory.resolve(storedFilename);
 
             Files.move(temporaryFile, finalFile);
             temporaryFile = null;

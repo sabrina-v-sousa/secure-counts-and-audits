@@ -139,4 +139,47 @@ public class DocumentRepository {
 
         return documents;
     }
+
+    public DocumentRecord getDocumentById(int id) throws SQLException {
+
+        String sql = """
+                SELECT id, original_filename, stored_filename,
+                    sha256, file_size, uploaded_by, uploaded_at
+                FROM documents
+                WHERE id = ?
+                """;
+
+        try (Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, id);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                if (resultSet.next()) {
+                    return new DocumentRecord(
+                            resultSet.getInt("id"),
+                            resultSet.getString("original_filename"),
+                            resultSet.getString("stored_filename"),
+                            resultSet.getString("sha256"),
+                            resultSet.getLong("file_size"),
+                            resultSet.getString("uploaded_by"),
+                            resultSet.getString("uploaded_at"));
+                }
+            }
+        }
+        return null;
+    }
+
+    public void deleteDocument(int id) throws SQLException {
+
+        String sql = "DELETE FROM documents WHERE id = ?";
+
+        try (Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }
+    }
 }

@@ -53,19 +53,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/6/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <title>Documents - Secure Counts and Audits</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f8;
             margin: 0;
-            padding: 40px 20px;
-            color: #263746;
+            padding: 80px 20px 40px;
+            color: #000000;
         }
-        .container {
+        .container button {
             max-width: 1100px;
             margin: auto;
-            background: white;
+            background: #3d566b;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -84,13 +88,13 @@
         }
         button {
             background: #263746;
-            color: white;
+            color: #ffffff;
             border: none;
-            padding: 12px 22px;
+            padding: 12px 12px;
             border-radius: 5px;
             cursor: pointer;
         }
-        button:hover {
+        .container button:hover {
             background: #3d566b;
         }
         .success {
@@ -143,6 +147,63 @@
         }
     </style>
 </head>
+<!-- Navbar -->
+<div class="w3-top">
+
+  <nav class="w3-flex w3-blue w3-card w3-large">
+
+        <a href="index.jsp"
+        class="w3-button w3-padding-large w3-white">
+        Home
+        </a>
+
+        <a href="clients.jsp"
+        class="w3-button w3-hide-small w3-padding-large w3-hover-white">
+        View Clients
+        </a>
+
+        <a href="documents.jsp"
+        class="w3-button w3-hide-small w3-padding-large w3-hover-white">
+        Upload Documents
+        </a>
+
+        <a href="evidence.jsp"
+        class="w3-button w3-hide-small w3-padding-large w3-hover-white">
+        View Evidence
+        </a>
+
+        <a href="video-conferencing/video-conferencing.jsp"
+        class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">
+        Live Video Auditing
+        </a>
+
+        <button class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right"
+                onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </button>
+
+    </nav>
+
+    <!-- Mobile navigation -->
+    <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-medium w3-hide-large">
+
+        <a href="#" class="w3-bar-item w3-button">View Clients</a>
+        <a href="#" class="w3-bar-item w3-button">Upload Documents</a>
+        <a href="#" class="w3-bar-item w3-button">View Evidence</a>
+        <a href="#" class="w3-bar-item w3-button">Live Video Auditing</a>
+
+    </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-blue w3-center"
+style="padding:48px 16px">
+
+  <h1 class="w3-margin w3-jumbo">Upload Documents</h1>
+
+  <p class="w3-xlarge">Secure Counts and Audits</p>
+
+</header>
 <body>
 <div class="container">
     <h1>Audit Documents</h1>
@@ -181,6 +242,14 @@
                    name="document"
                    accept=".pdf,application/pdf"
                    required>
+
+            <label for="documentName">Document Name:</label>
+            <input type="text"
+                   id="documentName"
+                   name="documentName"
+                   placeholder="Enter a name for your document"
+                   maxlength="100"
+                   required>
             <button type="submit">Upload Document</button>
         </form>
     </div>
@@ -205,6 +274,7 @@
                             <th>File Size</th>
                             <th>Uploaded By</th>
                             <th>SHA-256 Hash</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -225,6 +295,22 @@
                                 <td class="hash">
                                     <%= escapeHtml(document.getSha256()) %>
                                 </td>
+                                <td>
+                                    <form method="post"
+                                        action="${pageContext.request.contextPath}/delete-document"
+                                        onsubmit="return confirm('Are you sure you want to permanently delete this document?');">
+
+                                        <input type="hidden"
+                                            name="csrfToken"
+                                            value="<%= escapeHtml(String.valueOf(session.getAttribute("csrfToken"))) %>">
+
+                                        <input type="hidden"
+                                            name="id"
+                                            value="<%= document.getId() %>">
+
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                         <% } %>
                     </tbody>
@@ -238,6 +324,16 @@
     </p>
 
 </div>
+<script>
+function myFunction() {
+    var x = document.getElementById("navDemo");
 
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
 </body>
 </html>

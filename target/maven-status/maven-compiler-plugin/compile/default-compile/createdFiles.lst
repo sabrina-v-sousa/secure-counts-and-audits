@@ -3,3 +3,4 @@ com\securecounts\TokenServlet.class
 com\securecounts\audits\DocumentRecord.class
 com\securecounts\audits\DocumentService.class
 com\securecounts\audits\DocumentUploadServlet.class
+com\securecounts\audits\DeleteDocumentServlet.class

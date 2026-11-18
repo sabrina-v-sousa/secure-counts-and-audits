@@ -66,6 +66,7 @@
 
 <body>
 
+    <!-- Navigation -->
     <nav class="w3-top w3-bar w3-blue w3-card" aria-label="Main navigation">
 
         <a href="index.jsp" class="w3-bar-item w3-button w3-padding-large">
@@ -101,6 +102,7 @@
         </button>
     </nav>
 
+    <!-- Mobile navigation -->
     <div id="mobileMenu" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium" style="margin-top:60px"
         aria-label="Mobile navigation">
 
@@ -125,6 +127,7 @@
         </a>
     </div>
 
+    <!-- Dashboard header -->
     <header class="w3-container w3-blue w3-center dashboard-header">
 
         <h1 class="w3-jumbo">Auditor Dashboard</h1>
@@ -139,6 +142,7 @@
 
     </header>
 
+    <!-- Main dashboard -->
     <main>
 
         <section class="w3-content w3-padding-32" style="max-width:1200px">
@@ -151,6 +155,7 @@
 
             <div class="w3-row-padding">
 
+                <!-- Clients -->
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
 
@@ -167,6 +172,7 @@
                     </div>
                 </div>
 
+                <!-- Documents -->
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
 
@@ -183,6 +189,7 @@
                     </div>
                 </div>
 
+                <!-- Evidence -->
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
 
@@ -203,6 +210,7 @@
 
             <div class="w3-row-padding">
 
+                <!-- Live auditing -->
                 <div class="w3-half w3-margin-bottom">
                     <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
 
@@ -222,6 +230,7 @@
                     </div>
                 </div>
 
+                <!-- Reports -->
                 <div class="w3-half w3-margin-bottom">
                     <div class="w3-white w3-card w3-padding-24 w3-center dashboard-card">
 
@@ -245,6 +254,7 @@
 
         </section>
 
+        <!-- Project information -->
         <section class="w3-container w3-light-grey w3-padding-64">
 
             <div class="w3-content" style="max-width:1000px">
@@ -268,6 +278,7 @@
 
     </main>
 
+    <!-- Footer -->
     <footer class="w3-container w3-dark-grey w3-center w3-padding-32">
 
         <p>
