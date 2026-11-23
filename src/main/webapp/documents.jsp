@@ -59,92 +59,149 @@
 
     <title>Documents - Secure Counts and Audits</title>
     <style>
+
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f8;
             margin: 0;
-            padding: 80px 20px 40px;
+            padding: 0;
             color: #000000;
         }
-        .container button {
+
+        .container {
             max-width: 1100px;
-            margin: auto;
-            background: #3d566b;
+            margin: 40px auto;
+            background: #ffffff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
-        h1, h2 {
+
+        h1 {
+            color: #ffffff;
+        }        
+
+        h2 {
             color: #263746;
         }
+
         .upload-section {
             margin-bottom: 35px;
             padding-bottom: 25px;
             border-bottom: 1px solid #ddd;
         }
+
+        .history-section {
+            margin-top: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
         input[type="file"] {
             display: block;
-            margin: 20px 0;
+            margin: 15px 0;
         }
+
+        input[type="text"] {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
         button {
             background: #263746;
             color: #ffffff;
             border: none;
-            padding: 12px 12px;
+            padding: 12px 15px;
             border-radius: 5px;
             cursor: pointer;
         }
-        .container button:hover {
+
+        button:hover {
             background: #3d566b;
         }
+
         .success {
             background: #e6f4ea;
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 5px;
         }
+
         .error {
             background: #fce8e6;
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 5px;
         }
+
         .hash {
             overflow-wrap: anywhere;
             font-family: monospace;
             font-size: 12px;
         }
+
         .table-wrapper {
             overflow-x: auto;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             font-size: 14px;
         }
+
         th, td {
             text-align: left;
             padding: 12px;
             border-bottom: 1px solid #ddd;
             vertical-align: top;
         }
+
         th {
             background: #263746;
             color: white;
         }
+
         tr:hover {
             background: #f4f6f8;
         }
+
         .empty-message {
             background: #f4f6f8;
             padding: 20px;
             border-radius: 5px;
         }
+
         .back-link {
             display: inline-block;
             margin-top: 25px;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px 10px;
+                padding: 20px;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+
     </style>
 </head>
 <!-- Navbar -->
@@ -274,7 +331,7 @@ style="padding:48px 16px">
                             <th>File Size</th>
                             <th>Uploaded By</th>
                             <th>SHA-256 Hash</th>
-                            <th>Actions</th>
+                            <!-- <th>Actions</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -295,7 +352,7 @@ style="padding:48px 16px">
                                 <td class="hash">
                                     <%= escapeHtml(document.getSha256()) %>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <form method="post"
                                         action="${pageContext.request.contextPath}/delete-document"
                                         onsubmit="return confirm('Are you sure you want to permanently delete this document?');">
@@ -310,7 +367,7 @@ style="padding:48px 16px">
 
                                         <button type="submit">Delete</button>
                                     </form>
-                                </td>
+                                </td> -->
                             </tr>
                         <% } %>
                     </tbody>
