@@ -4,10 +4,41 @@
 .remote-video-container {
     position: relative;
 }
+
+#loading-overlay {
+    position: fixed;
+    inset: 0;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 28px;
+    background: #ececec;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px #0000004d;
+    z-index: 9999;
+}
+
+#loading-overlay[hidden] {
+    display: none;
+}
+
+#loading-text {
+    position: absolute;
+    top: calc(40% + 70px); /* just below the spinner */
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: sans-serif;
+}
+
 .loading-spinner {
     border: 12px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 12px solid #ca5010;
+    border-top: 12px solid #0099ff;
     width: 100px;
     height: 100px;
     -webkit-animation: spin 2s linear infinite; /* Safari */

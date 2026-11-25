@@ -2,6 +2,20 @@
 const { CallClient, VideoStreamRenderer, LocalVideoStream } = require('@azure/communication-calling');
 const { AzureCommunicationTokenCredential } = require('@azure/communication-common');
 const { AzureLogger, setLogLevel } = require("@azure/logger");
+require('@tensorflow/tfjs-backend-cpu');
+require('@tensorflow/tfjs-backend-webgl');
+const cocoSsd = require('@tensorflow-models/coco-ssd');
+
+// Load the model
+let loadingOverlay = document.getElementById('loading-overlay');
+LoadModel = async () => {
+    try {
+        return await cocoSsd.load();
+    } finally {
+        loadingOverlay.hidden = true;
+    }
+}
+const modelPreload = LoadModel();
 
 // Set the log level and output
 setLogLevel('verbose');
@@ -29,10 +43,9 @@ let stopVideoButton = document.getElementById('stop-video-button');
 let connectedLabel = document.getElementById('connectedLabel');
 let remoteVideosGallery = document.getElementById('remoteVideosGallery');
 let localVideoContainer = document.getElementById('localVideoContainer');
-
-document.getElementById('copy-id').addEventListener('click', () => {
-            navigator.clipboard.writeText(document.getElementById('my-user-id').value);
-});
+let copyIdButton = document.getElementById('copy-id');
+let objectDetectingButton = document.getElementById('object-detecting-button');
+const canvas = document.getElementById("object-detecting-canvas");
 
 /**
  * Using the CallClient, initialize a CallAgent instance with a CommunicationUserCredential which will enable us to make outgoing calls and receive incoming calls. 
@@ -136,12 +149,16 @@ function subscribeToCall(call) {
                 startVideoButton.disabled = false;
                 stopVideoButton.disabled = false;
                 remoteVideosGallery.hidden = false;
+                objectDetectingButton.hidden = false;
             } else if (call.state === 'Disconnected') {
                 connectedLabel.hidden = true;
                 startCallButton.disabled = false;
                 hangUpCallButton.disabled = true;
                 startVideoButton.disabled = true;
                 stopVideoButton.disabled = true;
+                remoteVideosGallery.hidden = true;
+                objectDetectingButton.hidden = true;
+                canvas.hidden = true;
                 console.log(`Call ended, call end reason={code=${call.callEndReason.code}, subCode=${call.callEndReason.subCode}}`);
             }   
         });
@@ -352,4 +369,85 @@ removeLocalVideoStream = async() => {
 hangUpCallButton.addEventListener("click", async () => {
     // end the current call
     await call.hangUp();
+});
+
+/**
+ * Copy the generated user ID for calling
+ */
+copyIdButton.addEventListener('click', async () => {
+    // copy user ID to clipboard
+    navigator.clipboard.writeText(document.getElementById('my-user-id').value);
+});
+
+/**
+ * Perform object detection count on remote video stream
+ */
+objectDetectingButton.addEventListener('click', async () => {
+    const video = remoteVideosGallery.querySelector('.remote-video-container video');
+    if (!video || video.readyState < 2) {
+        console.log('Remote video not ready');
+        return;
+    }
+
+    const frame = document.createElement('canvas');
+    frame.width = video.clientWidth;
+    frame.height = video.clientHeight;
+    frame.getContext('2d').drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
+
+    let model = await modelPreload;
+    const predictions = await model.detect(frame);
+    console.log('Predictions:', predictions);
+
+    canvas.width  = video.clientWidth;
+    canvas.height = video.clientHeight;
+    
+    const font = "16px sans-serif";
+    const textHeight = parseInt(font, 10); // base 10
+
+    let objectClasses = [];
+    let objectCounts = [];
+    predictions.forEach(prediction => {
+        if (objectClasses.includes(prediction.class)) {
+            objectCounts[objectClasses.indexOf(prediction.class)] += 1;
+        } 
+        else {
+            objectClasses[objectClasses.length] = prediction.class;
+            objectCounts[objectCounts.length] = 1;
+        }
+    });
+    canvas.height += textHeight*objectClasses.length;
+
+    const ctx = canvas.getContext("2d");
+    ctx.font = font;
+    ctx.textBaseline = "top";
+    ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
+    
+    predictions.forEach(prediction => {
+        const x = prediction.bbox[0];
+        const y = prediction.bbox[1];
+        const width = prediction.bbox[2];
+        const height = prediction.bbox[3];
+
+        // Bounding box
+        ctx.strokeStyle = "#00FFFF";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, width, height);
+
+        // Label background
+        ctx.fillStyle = "#00FFFF";
+        const textWidth = ctx.measureText(prediction.class).width;
+        ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, video.clientHeight, canvas.width, textHeight * objectClasses.length);
+        ctx.fillStyle = "#000000";
+        ctx.fillText(prediction.class, x, y);
+    });
+
+    for (let i = 0; i < objectClasses.length; i++) {
+        let text = "Object: " + objectClasses[i] + ", Count: " + objectCounts[i]
+        ctx.fillText(text, 0, canvas.height - textHeight*(1 + i));
+    }
+
+    canvas.hidden = false;
 });
