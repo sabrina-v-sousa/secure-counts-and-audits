@@ -117,7 +117,7 @@ Changes can be implemented by running these commands.
 
 1. Install NPM dependencies
    ```sh
-   npm ci
+   npm install
    ```
 2. Build webpack bundle (if .js files were changed)
    ```sh
