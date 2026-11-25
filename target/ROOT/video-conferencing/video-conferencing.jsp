@@ -1,12 +1,18 @@
 <% response.setHeader("Permissions-Policy", "unload=(self)"); %>
 <!DOCTYPE html>
 <html lang="en">
+
+<head>
+
 <title>Live Video Audit</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/6/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="styles.css">
+
+</head>
 
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family:"Lato",sans-serif}
@@ -88,6 +94,10 @@ style="padding:128px 16px">
     <div>
 
       <body>
+        <div id="loading-overlay">
+            <div class="loading-spinner"></div>
+            <p id="loading-text">Loading object detection model . . . </p>
+        </div>
         <h4>Azure Communication Services - Calling Web SDK</h4>
         <!-- input id="user-access-token"
             type="text"
@@ -118,9 +128,13 @@ style="padding:128px 16px">
         <br>
         <div id="connectedLabel" style="color: #13bb13;" hidden>Call is connected!</div>
         <br>
-        <div id="remoteVideosGallery" style="width: 40%;" hidden>Remote participants' video streams:</div>
+        <div id="remoteVideosGallery" style="width: 50%;" hidden>Remote participants' video streams:</div>
+        <button id="object-detecting-button" type="button" hidden>Object Detection</button>
         <br>
-        <div id="localVideoContainer" style="width: 30%;" hidden>Local video stream:</div>
+        <div id="objectDetectionLabel" style="color: #000000;" hidden>Objects Detected:</div>
+        <canvas id="object-detecting-canvas" style="border: 1px solid #ff9d1d; width: 40%;" hidden></canvas>
+        <br>
+        <div id="localVideoContainer" style="width: 40%;" hidden>Local video stream:</div>
         <!-- points to the bundle generated from webpack.config.js -->
         <script src="dist/video-conferencing.bundle.js"></script>
       </body>
