@@ -468,28 +468,6 @@ objectDetectingButton.addEventListener('click', async () => {
 /**
  * Save object detecting canvas and evidence notes to pdf
  */
-async function saveReportToServer(doc) {
-  const blob = doc.output('blob');
-  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const filename = `${docName.value}-${stamp}.pdf`;
-
-  const form = new FormData();
-  form.append('csrfToken', window.APP_CONFIG.csrfToken);
-  form.append('documentName', `Evidence Report ${new Date().toLocaleString()}`);
-  form.append('document', new File([blob], filename, { type: 'application/pdf' }));
-
-  const response = await fetch(window.APP_CONFIG.uploadUrl, {
-    method: 'POST',
-    body: form,
-    credentials: 'same-origin'
-  });
-
-  if (!response.ok) {
-    throw new Error(`Upload failed (HTTP ${response.status})`);
-  }
-  return response;
-}
-
 saveButton.addEventListener('click', async () => {
     const doc = new jsPDF({ unit: 'pt', format: 'letter' });
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -550,11 +528,4 @@ saveButton.addEventListener('click', async () => {
     });
 
     doc.save(`${docName.value}.pdf`);
-    try {
-        await saveReportToServer(doc);
-        alert('Report saved to Audit Evidence.');
-    } catch (err) {
-        console.error(err);
-        alert('Could not save the report. Please try again.');
-    }
 });

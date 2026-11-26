@@ -158,21 +158,6 @@ style="padding:128px 16px">
           </div>
 
         </div>
-        <%@ page import="java.util.UUID" %>
-        <%
-            if (session.getAttribute("csrfToken") == null) {
-                session.setAttribute("csrfToken", UUID.randomUUID().toString());
-            }
-            String uploadUrl = request.getContextPath() + "/upload-document";
-            String csrfToken = String.valueOf(session.getAttribute("csrfToken"));
-        %>
-
-        <script>
-          window.APP_CONFIG = {
-            uploadUrl: "<%= uploadUrl %>",
-            csrfToken: "<%= csrfToken %>"
-          };
-        </script>
         <!-- points to the bundle generated from webpack.config.js -->
         <script src="dist/video-conferencing.bundle.js"></script>
       
