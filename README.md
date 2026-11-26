@@ -17,8 +17,6 @@
   <p align="center">
     Web App For Secure Remote Auditing
     <br />
-    <a href="https://secure-counts-and-audits-eahrg0bzfgbhewew.canadacentral-01.azurewebsites.net/">View Demo</a>
-    &middot;
     <a href="https://github.com/sabrina-v-sousa/secure-counts-and-audits/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
     <a href="https://github.com/sabrina-v-sousa/secure-counts-and-audits/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
