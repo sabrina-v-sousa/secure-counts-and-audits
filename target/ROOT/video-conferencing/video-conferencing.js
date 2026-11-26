@@ -5,6 +5,8 @@ const { AzureLogger, setLogLevel } = require("@azure/logger");
 require('@tensorflow/tfjs-backend-cpu');
 require('@tensorflow/tfjs-backend-webgl');
 const cocoSsd = require('@tensorflow-models/coco-ssd');
+const { jsPDF } = require("jspdf");
+const { autoTable } = require("jspdf-autotable");
 
 // Load the model
 let loadingOverlay = document.getElementById('loading-overlay');
@@ -45,7 +47,13 @@ let remoteVideosGallery = document.getElementById('remoteVideosGallery');
 let localVideoContainer = document.getElementById('localVideoContainer');
 let copyIdButton = document.getElementById('copy-id');
 let objectDetectingButton = document.getElementById('object-detecting-button');
+let objectDetectionLabel = document.getElementById('objectDetectionLabel');
 const canvas = document.getElementById("object-detecting-canvas");
+let notesLabel = document.getElementById('notesLabel');
+let evidenceNotesInput = document.getElementById('evidence-notes');
+let saveButton = document.getElementById('save-button');
+let docName =  document.getElementById('doc-name');
+let lastDetections = [];
 
 /**
  * Using the CallClient, initialize a CallAgent instance with a CommunicationUserCredential which will enable us to make outgoing calls and receive incoming calls. 
@@ -150,6 +158,10 @@ function subscribeToCall(call) {
                 stopVideoButton.disabled = false;
                 remoteVideosGallery.hidden = false;
                 objectDetectingButton.hidden = false;
+                saveButton.hidden = false;
+                docName.hidden = false;
+                evidenceNotesInput.hidden = false;
+                notesLabel.hidden = false;
             } else if (call.state === 'Disconnected') {
                 connectedLabel.hidden = true;
                 startCallButton.disabled = false;
@@ -158,7 +170,6 @@ function subscribeToCall(call) {
                 stopVideoButton.disabled = true;
                 remoteVideosGallery.hidden = true;
                 objectDetectingButton.hidden = true;
-                canvas.hidden = true;
                 console.log(`Call ended, call end reason={code=${call.callEndReason.code}, subCode=${call.callEndReason.subCode}}`);
             }   
         });
@@ -449,5 +460,101 @@ objectDetectingButton.addEventListener('click', async () => {
         ctx.fillText(text, 0, canvas.height - textHeight*(1 + i));
     }
 
+    lastDetections = predictions;
+    objectDetectionLabel.hidden = false;
     canvas.hidden = false;
+});
+
+/**
+ * Save object detecting canvas and evidence notes to pdf
+ */
+async function saveReportToServer(doc) {
+  const blob = doc.output('blob');
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const filename = `${docName.value}-${stamp}.pdf`;
+
+  const form = new FormData();
+  form.append('csrfToken', window.APP_CONFIG.csrfToken);
+  form.append('documentName', `Evidence Report ${new Date().toLocaleString()}`);
+  form.append('document', new File([blob], filename, { type: 'application/pdf' }));
+
+  const response = await fetch(window.APP_CONFIG.uploadUrl, {
+    method: 'POST',
+    body: form,
+    credentials: 'same-origin'
+  });
+
+  if (!response.ok) {
+    throw new Error(`Upload failed (HTTP ${response.status})`);
+  }
+  return response;
+}
+
+saveButton.addEventListener('click', async () => {
+    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 40;
+    const contentWidth = pageWidth - margin * 2;
+    let y = margin;
+
+    // Title
+    doc.setFontSize(18);
+    doc.text('Evidence Report', margin, y);
+    y += 20;
+    doc.setFontSize(10);
+    doc.text(new Date().toLocaleString(), margin, y);
+    y += 25;
+
+    // Save canvas image
+    if (canvas && canvas.width > 0 && canvas.height > 0) {
+        const imgData = canvas.toDataURL('image/png');
+        const imgHeight = (canvas.height / canvas.width) * contentWidth;
+        doc.setFontSize(12);
+        doc.text('Detection Snapshot', margin, y);
+        y += 10;
+        doc.addImage(imgData, 'PNG', margin, y, contentWidth, imgHeight);
+        y += imgHeight + 25;
+    }
+
+    // Detections table
+    const rows = lastDetections.map((d, i) => [
+        i + 1,
+        d.class,
+        (d.score * 100).toFixed(1) + '%',
+        d.bbox.map(n => Math.round(n)).join(', ')
+    ]);
+
+    autoTable(doc, {
+        startY: y,
+        head: [['#', 'Object', 'Confidence', 'Box (x, y, w, h)']],
+        body: rows.length ? rows : [['', 'No objects detected', '', '']],
+        margin: { left: margin, right: margin },
+        headStyles: { fillColor: [255, 157, 29] }
+    });
+    y = doc.lastAutoTable.finalY + 25;
+
+    // Notes (wrapped, with page breaks)
+    const notes = evidenceNotesInput.value || '(no notes)';
+    doc.setFontSize(12);
+    if (y > pageHeight - margin - 40) { doc.addPage(); y = margin; }
+    doc.text('Notes', margin, y);
+    y += 16;
+    doc.setFontSize(10);
+    const lines = doc.splitTextToSize(notes, contentWidth);
+    const lineHeight = 14;
+    lines.forEach(line => {
+        if (y > pageHeight - margin) { doc.addPage(); y = margin; }
+        doc.text(line, margin, y);
+        y += lineHeight;
+    });
+
+    doc.save(`${docName.value}.pdf`);
+    try {
+        await saveReportToServer(doc);
+        alert('Report saved to Audit Evidence.');
+    } catch (err) {
+        console.error(err);
+        alert('Could not save the report. Please try again.');
+    }
 });

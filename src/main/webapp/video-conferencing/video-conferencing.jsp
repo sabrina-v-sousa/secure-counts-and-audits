@@ -93,7 +93,6 @@ style="padding:128px 16px">
 
     <div>
 
-      <body>
         <div id="loading-overlay">
             <div class="loading-spinner"></div>
             <p id="loading-text">Loading object detection model . . . </p>
@@ -128,16 +127,54 @@ style="padding:128px 16px">
         <br>
         <div id="connectedLabel" style="color: #13bb13;" hidden>Call is connected!</div>
         <br>
-        <div id="remoteVideosGallery" style="width: 50%;" hidden>Remote participants' video streams:</div>
-        <button id="object-detecting-button" type="button" hidden>Object Detection</button>
-        <br>
-        <div id="objectDetectionLabel" style="color: #000000;" hidden>Objects Detected:</div>
-        <canvas id="object-detecting-canvas" style="border: 1px solid #ff9d1d; width: 40%;" hidden></canvas>
-        <br>
-        <div id="localVideoContainer" style="width: 40%;" hidden>Local video stream:</div>
+
+        <!-- two column layout for calling -->
+        <div class="call-layout" style="display: flex; gap: 32px; align-items: flex-start;"> 
+          
+          <!-- left column video streams -->
+          <div class="video-column" style="flex: 1 1 60%; min-width: 0;">
+            <div id="remoteVideosGallery" style="width: 80%;" hidden>Remote participants' video streams:</div>
+            <br>
+            <div id="localVideoContainer" style="width: 70%;" hidden>Local video stream:</div>
+          </div>
+          <!-- right column evidence -->
+          <div class="evidence-column" style="flex: 1 1 40%; min-width: 260px;">
+            <button id="object-detecting-button" type="button" hidden>Object Detection</button>
+            <br>
+            <div id="objectDetectionLabel" style="color: #000000;" hidden>Objects Detected:</div>
+            <canvas id="object-detecting-canvas" style="border: 1px solid #ff9d1d; width: 80%;" hidden></canvas>
+            <br>
+            <div id="notesLabel" style="color: #000000;" hidden>Audit Notes:</div>
+            <textarea id="evidence-notes"
+              type="text"
+              placeholder="Enter Notes Here"
+              style="margin-bottom:1em; width: 70%; height: 200px;" hidden></textarea>
+            <br>
+            <button id="save-button" type="button" hidden>Save Evidence</button>
+            <input id="doc-name"
+            type="text"
+            placeholder="PDF name"
+            style="margin-bottom:1em; width: 50%;" hidden/>
+          </div>
+
+        </div>
+        <%@ page import="java.util.UUID" %>
+        <%
+            if (session.getAttribute("csrfToken") == null) {
+                session.setAttribute("csrfToken", UUID.randomUUID().toString());
+            }
+            String uploadUrl = request.getContextPath() + "/upload-document";
+            String csrfToken = String.valueOf(session.getAttribute("csrfToken"));
+        %>
+
+        <script>
+          window.APP_CONFIG = {
+            uploadUrl: "<%= uploadUrl %>",
+            csrfToken: "<%= csrfToken %>"
+          };
+        </script>
         <!-- points to the bundle generated from webpack.config.js -->
         <script src="dist/video-conferencing.bundle.js"></script>
-      </body>
       
     </div>
 
