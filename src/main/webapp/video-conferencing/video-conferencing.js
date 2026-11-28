@@ -54,6 +54,8 @@ let evidenceNotesInput = document.getElementById('evidence-notes');
 let saveButton = document.getElementById('save-button');
 let docName =  document.getElementById('doc-name');
 let lastDetections = [];
+let lastObjectClasses = [];
+let lastObjectCounts = [];
 
 /**
  * Using the CallClient, initialize a CallAgent instance with a CommunicationUserCredential which will enable us to make outgoing calls and receive incoming calls. 
@@ -461,6 +463,9 @@ objectDetectingButton.addEventListener('click', async () => {
     }
 
     lastDetections = predictions;
+    lastObjectClasses = objectClasses;
+    lastObjectCounts = objectCounts;
+
     objectDetectionLabel.hidden = false;
     canvas.hidden = false;
 });
@@ -495,6 +500,10 @@ saveButton.addEventListener('click', async () => {
         y += imgHeight + 25;
     }
 
+    doc.setFontSize(12);
+    doc.text('Model Detections', margin, y);
+    y += 10;
+
     // Detections table
     const rows = lastDetections.map((d, i) => [
         i + 1,
@@ -507,6 +516,26 @@ saveButton.addEventListener('click', async () => {
         startY: y,
         head: [['#', 'Object', 'Confidence', 'Box (x, y, w, h)']],
         body: rows.length ? rows : [['', 'No objects detected', '', '']],
+        margin: { left: margin, right: margin },
+        headStyles: { fillColor: [255, 157, 29] }
+    });
+    y = doc.lastAutoTable.finalY + 25;
+
+    doc.setFontSize(12);
+    doc.text('Sample Count Total', margin, y);
+    y += 10;
+
+    // Total Counts Table
+    const rows_total = lastObjectClasses.map((d, i) => [
+        i + 1,
+        d,
+        lastObjectCounts[i]
+    ]);
+
+    autoTable(doc, {
+        startY: y,
+        head: [['#', 'Object', 'Count']],
+        body: rows_total.length ? rows_total : [['', 'No objects detected', '']],
         margin: { left: margin, right: margin },
         headStyles: { fillColor: [255, 157, 29] }
     });
